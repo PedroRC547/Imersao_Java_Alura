@@ -1,29 +1,36 @@
+import java.io.InputStream;
+import java.net.URL;
+import java.util.List;
 
 public class App {
     public static void main(String[] args) throws Exception {
 
-        // fazer um conexão HTTP ebuscar os top 250 filmes
+        String url = "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/TopMovies.json";
+        var extrator = new ExtratorDeConteudoImdb();
 
-        Json Json = new Json();
-        // Exibir e manipular os dados
+        // String url =
+        // "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/NASA-APOD.json";
+        // var extrator = new ExtratorDeConteudoNasa();
 
-        System.out.println("----------------------Top Movies-------------------------");
-        Json.coletaInfo("https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/TopMovies.json");
-        System.out.println("---------------------------------------------------------");
-        System.out.println();
-        System.out.println("-------------------------Top TVs-------------------------");
-        Json.coletaInfo("https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/TopTVs.json");
-        System.out.println("---------------------------------------------------------");
-        System.out.println();
-        System.out.println("------------------Most Popular Movies--------------------");
-        Json.coletaInfo(
-                "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/MostPopularMovies.json");
-        System.out.println("---------------------------------------------------------");
-        System.out.println();
-        System.out.println("------------------Most Popular TVs-----------------------");
-        Json.coletaInfo("https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/MostPopularTVs.json");
-        System.out.println("---------------------------------------------------------");
-        System.out.println();
+        ClientHttp http = new ClientHttp();
+        String json = http.buscaDados(url);
+
+        List<Conteudo> conteudos = extrator.extraiConteudos(json);
+
+        var geradora = new GeradoraDeFigurinhas();
+
+        for (int i = 0; i < 2; i++) {
+            Conteudo conteudo = conteudos.get(i);
+
+            InputStream inputStream = new URL(conteudo.getUrlImagem()).openStream();
+            String nomeDaString = "saida/" + conteudo.getTitulo() + ".png";
+
+            geradora.cria(inputStream, nomeDaString);
+
+            System.out.println(conteudo.getTitulo());
+            System.out.println();
+
+        }
 
     }
 }
