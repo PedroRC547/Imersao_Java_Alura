@@ -5,12 +5,15 @@ import java.util.List;
 public class App {
     public static void main(String[] args) throws Exception {
 
-        String url = "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/TopMovies.json";
-        var extrator = new ExtratorDeConteudoImdb();
+        // String url = "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/TopMovies.json";
+        // var extrator = new ExtratorDeConteudoImdb();
 
         // String url =
         // "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/NASA-APOD.json";
         // var extrator = new ExtratorDeConteudoNasa();
+
+        String url = "http://localhost:8080/linguagens";
+        var extrator = new ExtratorDeConteudoImdb();
 
         ClientHttp http = new ClientHttp();
         String json = http.buscaDados(url);
